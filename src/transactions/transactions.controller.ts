@@ -20,7 +20,6 @@ export class TransactionsController {
 
   @Get()
   findAll(@Req() req) {
-    console.log(this.tenantService.tenant, req.user);
     return this.transactionsService.findAll();
   }
 }
