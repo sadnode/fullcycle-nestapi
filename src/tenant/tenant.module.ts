@@ -1,4 +1,12 @@
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
+import { SequelizeModule } from '@nestjs/sequelize';
+import { Account } from 'src/accounts/entities/account.entity';
+import { TenantService } from './tenant/tenant.service';
 
-@Module({})
+@Global()
+@Module({
+  imports: [SequelizeModule.forFeature([Account])],
+  providers: [TenantService],
+  exports: [TenantService],
+})
 export class TenantModule {}

@@ -26,7 +26,6 @@ import { TenantModule } from './tenant/tenant.module';
       synchronize: true,
       sync: {
         alter: true,
-        force: true,
       },
     }),
     TransactionsModule,
