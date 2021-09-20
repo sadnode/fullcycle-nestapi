@@ -1,19 +1,19 @@
+import { Report } from './entities/report.entity';
+import { SequelizeModule } from '@nestjs/sequelize';
 import { Module } from '@nestjs/common';
 import { ReportsService } from './reports.service';
 import { ReportsController } from './reports.controller';
-import { SequelizeModule } from '@nestjs/sequelize';
-import { Report } from './entities/report.entity';
 import { RequestReportGenerateService } from './request-report-generate/request-report-generate.service';
 import { ClientKafka, ClientsModule } from '@nestjs/microservices';
-import { makeKafkaOptions } from 'src/common/kafka-config';
+import { makeKafkaOptions } from '../common/kafka-config';
 
 @Module({
   imports: [
     SequelizeModule.forFeature([Report]),
-    ClientsModule.register([
+    ClientsModule.registerAsync([
       {
         name: 'KAFKA_SERVICE',
-        ...makeKafkaOptions(),
+        useFactory: () => makeKafkaOptions(),
       },
     ]),
   ],
@@ -24,7 +24,7 @@ import { makeKafkaOptions } from 'src/common/kafka-config';
     {
       provide: 'KAFKA_PRODUCER',
       useFactory: async (kafkaService: ClientKafka) => {
-        kafkaService.connect();
+        return kafkaService.connect();
       },
       inject: ['KAFKA_SERVICE'],
     },

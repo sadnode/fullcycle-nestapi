@@ -8,7 +8,8 @@ export function makeKafkaOptions(): KafkaOptions {
         clientId: process.env.KAFKA_CLIENT_ID,
         brokers: [process.env.KAFKA_HOST],
         ssl: process.env.KAFKA_USE_SSL === 'true',
-        ...(process.env.KAFKA_SASL_USERNAME !== '' &&
+        ...(process.env.KAFKA_SASL_USERNAME &&
+          process.env.KAFKA_SASL_USERNAME !== '' &&
           process.env.KAFKA_SASL_PASSWORD &&
           process.env.KAFKA_SASL_PASSWORD !== '' && {
             sasl: {
